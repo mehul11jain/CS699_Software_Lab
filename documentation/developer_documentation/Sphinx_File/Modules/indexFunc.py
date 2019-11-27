@@ -1,43 +1,4 @@
-from django.shortcuts import render,redirect
-from django.contrib.auth import authenticate,logout
-#import Proofreader_impl.spell as sp
-from pylanguagetool import api
-#from .forms import QueryForm
-import re
-import requests,json
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import UserCreationForm
-#from Proofreader_impl.models import Login_Data
-# Create your views here.
-def Landing(request):
-    return render(request,'Landing.html')
-        
-def Register(request):
-    """
-    Its registers new user to our website and create user-account.
-    
-    :return: Link for authenticated user page 
-    
-    """ 
-    if request.method == "GET":
-        return render(request,'registration/Signup.html')
-    else:
-        #Login_Data.objects.create(firstname=request.POST.get('firstname'),lastname=request.POST.get('lastname'),username=request.POST.get('email'),password=request.POST.get('password'))
-        User.objects.create_user(request.POST.get('firstname')+request.POST.get('lastname'), request.POST.get('email') , request.POST.get('password'))
-        username = request.POST.get('firstname')+request.POST.get('lastname')
-        password = request.POST.get('password')
-        print(username)
-        print(password)
-        user=authenticate(username=username,password=password)
-        print(user)
-        if(user is not None):
-            login(request,user)
-            return redirect("http://127.0.0.1:8000/index")
-        else:
-            return redirect("http://127.0.0.1:8000/index")
-
-def index(request):
+def indexFunc(request):
     """
     It is the main function of our project. Includes following steps:
 
@@ -60,7 +21,6 @@ def index(request):
     :return: dictionary containing error-details
     :rtype: dict
     """ 
-
     if request.method=='GET':
         if request.user.is_authenticated:    
             return render(request,'index.html')
@@ -128,6 +88,3 @@ def index(request):
                 replacements.append(i['replacement'])
             return render(request,'index.html',{'result':res,'sug':replacements,'details':details,'brief':message,'length':range(len(replacements)),'errorHtml':errorHtml})
 
-def logout_view (request):
-    logout(request)
-    return redirect("http://127.0.0.1:8000/accounts/login",)
