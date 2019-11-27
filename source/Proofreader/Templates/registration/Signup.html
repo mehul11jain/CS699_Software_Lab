@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="{% static '/styles/signup.css' %}">
+    <title>Proofreader</title>
+</head>
+<body>
+    <header>
+        <p class="head" style="color: white; font-size:24px;">Team8bit's Proofreader</p>
+    </header>
+    <div class="form">
+          <div id="signup">
+            <h1>Sign Up for Free</h1>
+      
+            <form action="/register" method="post">
+              {%csrf_token%}
+              <div class="top-row">
+                <div class="field-wrap">
+                  <label>
+                      First Name<span class="req">*</span>
+                    </label>
+                  <input type="text" name="firstname" required autocomplete="off" />
+                </div>
+      
+                <div class="field-wrap">
+                  <label>
+                      Last Name<span class="req">*</span>
+                    </label>
+                  <input type="text"  name="lastname" required autocomplete="off" />
+                </div>
+              </div>
+      
+              <div class="field-wrap">
+                <label>
+                    Email Address<span class="req">*</span>
+                  </label>
+                <input type="email" name="email" required autocomplete="off" />
+              </div>
+      
+              <div class="field-wrap">
+                <label>
+                    Set A Password<span class="req">*</span>
+                  </label>
+                <input type="password" name="password" required autocomplete="off" />
+              </div>
+      
+              <button type="submit" class="button button-block" />Get Started</button>
+      
+            </form>
+      
+          </div>
+      
+
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static 'js/Signup.js' %}"></script>      <!-- /form -->
+</body>
+</html>

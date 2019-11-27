@@ -1,0 +1,62 @@
+{% load static %}
+{% load index %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel= "stylesheet" href="{% static 'styles/bootstrap.css' %}">
+    <link rel= "stylesheet" href="{% static 'styles/index.css' %}">
+    <link rel="icon" href="{% static 'img/icon.png' %}" type="image/gif" sizes="16x16">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <title>Proofreader</title>
+    <!-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> -->
+    <!-- <script src="https://cdn.tiny.cloud/1/tdov5ayrhdj9egs1629tppiny2271xpx5qih249x3z78qtu5/tinymce/5/tinymce.min.js"></script> -->
+    <!-- <script>tinymce.init({selector:'#q'});</script> -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script>
+            var quill = new Quill('#q', {
+              theme: 'snow'
+            });
+          </script>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+</head>
+<body>
+    <header>
+        <p class="head">Team8bit's Proofreader<a href="/logout"><i class="fas fa-sign-out-alt"></i></a></p>
+    </header>
+    <h3>A tool for <span class="spell">Spelling</span> and <span class="gram">Grammar</span> <span class="corr">correction</span></h3>
+    <div class="container">
+    <div class="row">
+        <div class="col-md-6">
+
+                
+
+        <form spellcheck="false" action="" method="POST" id="req">
+            {% csrf_token %}
+            <!-- <div id="tdiv">
+                {{ form }}
+            </div>     -->
+            <!-- <textarea id="q">Next, use our Get Started docs to setup Tiny!</textarea> -->
+            <div id="q" contenteditable="true">{{result |safe }}</div>
+            <input type="submit"  class="btn btn-primary">
+            <button class="btn btn-danger" id="clear">Clear text</button>
+        </form>
+        <!-- <span style="display:none;" id="hid">{{result}}</span> -->
+        <a href="/index">Go back</a>
+        </div>
+        <div class="col-md-6">
+            
+            {% for vals in length %}
+            <div id={{vals}} name="errorCollapse" class="corrp card" style="display:block" ><div class="card-body"><span class="err">{{errorHtml|index:vals}}</span><span class="arrw">&rarr;</span><strong><em>{% if brief|index:vals != "" %}{{brief|index:vals}}{% else %}"Error"{%endif%}</em></strong></div></div>
+            <div id={{vals}} name="errorDiv" class="corrp card " style="display:none" ><div class="card-body"><span class="err">{{errorHtml|index:vals}}</span><span class="arrw">&rarr;</span>{% for i in sug|index:vals %} <button  name="suggest" value="{{i}},{{vals}}" class="cor">{{i}}</button>{% endfor %}<button  name="suggest" value="@#!@#,{{vals}}" class="new">other</button> <p class="card-text"><strong><em>{% if brief|index:vals != "" %}{{brief|index:vals}}{% else %}Error{%endif%}:</em></strong> {{details|index:vals}}</p></div></div>
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="{% static 'js/text.js' %}"></script>
+</body>
+</html>
